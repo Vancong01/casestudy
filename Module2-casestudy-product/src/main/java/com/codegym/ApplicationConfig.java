@@ -4,12 +4,9 @@ package com.codegym;
 //import com.codegym.converter.StringToLocalDateConverter;
 //import com.codegym.formatter.BookFormatter;
 
-import com.codegym.service.CategoryService;
-import com.codegym.service.CategoryServiceImpl;
-import com.codegym.service.SupplierService;
-import com.codegym.service.SupplierServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import com.codegym.converter.StringToLocalDateConverter;
+import com.codegym.service.*;
+import com.codegym.service.impl.*;
 //import org.springframework.format.FormatterRegistry;
 
 
@@ -22,6 +19,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import org.springframework.format.FormatterRegistry;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -47,14 +45,14 @@ import java.util.Properties;
 @EnableTransactionManagement
 @ComponentScan("com.codegym.controller")
 @EnableJpaRepositories("com.codegym.repository")
-@EnableSpringDataWebSupport
+//@EnableSpringDataWebSupport
 public class ApplicationConfig extends  WebMvcConfigurerAdapter implements ApplicationContextAware{
     private ApplicationContext applicationContext;
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
-    //Autowire Category
+
     @Bean
     public CategoryService categoryService(){
         return new CategoryServiceImpl();
@@ -65,6 +63,20 @@ public class ApplicationConfig extends  WebMvcConfigurerAdapter implements Appli
         return new SupplierServiceImpl();
     }
 
+    @Bean
+    public ProductService productService(){
+        return  new ProductServiceImpl();
+    }
+
+    @Bean
+    public CustomerService customerService(){
+        return  new CustomerServiceImpl();
+    }
+
+    @Bean
+    public OrderService orderService(){
+        return new OrderServiceImpl();
+    }
 
     //Thymeleaf Configuration
     @Bean
@@ -127,12 +139,12 @@ public class ApplicationConfig extends  WebMvcConfigurerAdapter implements Appli
         transactionManager.setEntityManagerFactory(emf);
         return transactionManager;
     }
-//    //cấu hình Converter
-//    @Override
-//    public void addFormatters(FormatterRegistry registry) {
-//        registry.addFormatter(new PhoneFormatter(applicationContext.getBean(PhoneService.class)));
-//        StringToLocalDateConverter stringToLocalDate = new StringToLocalDateConverter("dd/MM/yyyy");
-//        registry.addConverter(stringToLocalDate);
-//    }
+    //cấu hình Converter
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        //registry.addFormatter(new PhoneFormatter(applicationContext.getBean(PhoneService.class)));
+        StringToLocalDateConverter stringToLocalDate = new StringToLocalDateConverter("dd/MM/yyyy");
+        registry.addConverter(stringToLocalDate);
+    }
 
 }

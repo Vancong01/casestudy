@@ -3,6 +3,7 @@ package com.codegym.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Table(name="supplier")
@@ -18,6 +19,17 @@ public class Supplier {
     private String address;
 
     private String description;
+
+    @OneToMany(targetEntity = Product.class)
+    private List<Product> products;
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 
     public Supplier(@NotNull String name, @NotNull String address, String description) {
         this.name = name;

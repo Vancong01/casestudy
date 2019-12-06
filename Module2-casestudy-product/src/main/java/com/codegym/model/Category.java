@@ -2,6 +2,7 @@ package com.codegym.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Table(name="category")
@@ -15,7 +16,18 @@ public class Category {
 
     private String description;
 
-    public Category(@NotNull String name,String description) {
+    @OneToMany(targetEntity = Product.class)
+    private List<Product> products;
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public Category(@NotNull String name, String description) {
         this.name = name;
         this.description = description;
     }

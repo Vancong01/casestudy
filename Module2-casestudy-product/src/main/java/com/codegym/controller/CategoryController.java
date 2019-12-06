@@ -32,12 +32,10 @@ public class CategoryController {
         return modelAndView;
     }
     @PostMapping("/create-category")
-    public ModelAndView saveCategory(@ModelAttribute("category") Category category, RedirectAttributes redirectAttributes){
+    public String saveCategory(@ModelAttribute("category") Category category, RedirectAttributes redirectAttributes){
         categoryService.save(category);
-        ModelAndView modelAndView = new ModelAndView("redirect:categories");
-        modelAndView.addObject("category",new Category());
         redirectAttributes.addFlashAttribute("message","New category create successfully!");
-        return modelAndView;
+        return ("redirect:categories");
     }
     @GetMapping("/edit-category/{id}")
     public ModelAndView showEditForm(@PathVariable Long id){
@@ -54,12 +52,10 @@ public class CategoryController {
     }
 
     @PostMapping("/edit-category")
-    public ModelAndView updateCategory(@ModelAttribute("category") Category category,RedirectAttributes redirectAttributes){
+    public String updateCategory(@ModelAttribute("category") Category category,RedirectAttributes redirectAttributes){
         categoryService.save(category);
-        ModelAndView modelAndView = new ModelAndView("redirect: categories");
-        modelAndView.addObject("category", category);
         redirectAttributes.addFlashAttribute("message", "category updated successfully");
-        return modelAndView;
+        return ("redirect: categories");
     }
     @GetMapping("/delete-category/{id}")
     public ModelAndView showDeleteForm(@PathVariable Long id){
