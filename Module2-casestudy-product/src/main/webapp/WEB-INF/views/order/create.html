@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th>
+<head>
+    <meta charset="UTF-8">
+    <title>Create Order</title>
+</head>
+<body>
+<h1>Create Order</h1>
+
+<p>
+    <a href="/orders">Order List</a>
+</p>
+
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+
+<form th:action="@{/create-order}" th:object="${order}" method="post">
+    <table>
+        <tr>
+            <td>Name : </td>
+            <td><input type="text" th:field="*{name}" /></td>
+        </tr>
+        <tr>
+            <td>DateOfPurChase:</td>
+            <td><input type="text" th:field="*{dateOfPurchase}" /></td>
+        </tr>
+        <tr>
+            <td>Customer: </td>
+            <td>
+                <select th:field="*{customer}">
+                    <option th:each="s: ${customers}" th:value="${s.id}" th:text="${s.name}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Create order" /></td>
+        </tr>
+    </table>
+
+</form>
+
+</body>
+</html>
